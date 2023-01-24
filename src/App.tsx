@@ -1,56 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+import { MatrixGrid } from "./Grid";
+import { Ships } from "./Ships";
+import { gameData } from "./gameData";
 
 function App() {
+  const [clickedPositions, setClickedPositions] = useState({});
+
+  const onClickGridCell = (position: [number, number]) => {
+    const isShipPosition = gameData.layout.some((shipData) =>
+      shipData.positions.some(
+        (shipPosition) =>
+          position[0] === shipPosition[0] && position[1] === shipPosition[1]
+      )
+    );
+
+    setClickedPositions({
+      ...clickedPositions,
+      [position[0] * 10 + position[1]]: isShipPosition ? "SHIP" : "EMPTY",
+    });
+  };
+
+  useEffect(() => {
+    const shipsPositionsCount = gameData.layout.reduce(
+      (counts, ship) => counts + ship.positions.length,
+      0
+    );
+
+    if (
+      shipsPositionsCount ===
+      Object.values(clickedPositions).filter((value) => value === "SHIP").length
+    ) {
+      if (window.confirm("Game Over")) {
+        setClickedPositions({});
+      }
+    }
+  }, [clickedPositions]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div className="container">
+      <div className="game-container">
+        <Ships shipsData={gameData} clickedPositions={clickedPositions} />
+        <MatrixGrid
+          onClickGridCell={onClickGridCell}
+          clickedPositions={clickedPositions}
+        />
+      </div>
     </div>
   );
 }

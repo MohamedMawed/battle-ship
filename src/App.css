@@ -1,39 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
 .App {
+  text-align: center;
+  display: grid;
+}
+
+.container {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto auto auto;
+  background-color: #e5f321;
+  padding: 5px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  width: 40px;
+  height: 40px;
+  font-size: 30px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
-}
-
-.App-header {
-  min-height: 100vh;
+.game-container {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  flex-direction: row;
+  margin: auto;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+.dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 10px;
+  border: 1px solid gray;
+  margin: 10px;
 }
 
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
+.ship-name {
+  font-size: 28;
+  font-weight: bold;
+}
+
+.ship-row {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0px;
+}
+
+.ships-section {
+  margin: 20px;
+  width: 300px;
+}
+
+@media screen and (max-width: 992px) {
+  .game-container {
+    flex-direction: column-reverse;
+    margin: 20px;
   }
-  50% {
-    transform: translateY(10px);
+  .grid-item {
+    width: auto;
+    height: auto;
+    padding: 15px 5px;
   }
-  100% {
-    transform: translateY(0px);
+}
+
+@media screen and (max-width: 440px) {
+  .game-container {
+    flex-direction: column-reverse;
+    width: 100%;
+    margin: 0px;
+  }
+  .grid-item {
+    width: 40px;
+    height: 40px;
+    padding: 15px 5px;
   }
 }
